@@ -1,0 +1,61 @@
+{
+  "_note": "网格机器人配置文件 — ExtendedX | 所有必填字段的说明在注释中，请根据自己的情况填写",
+
+  "log_level": "INFO",
+  "log_level_note": "日志级别: DEBUG=详细, INFO=普通, WARNING=仅警告。首次运行建议 DEBUG 排查，稳定后改为 INFO",
+  "log_level_options": ["DEBUG", "INFO", "WARNING"],
+
+  "log_file": "grid.log",
+  "log_file_note": "日志文件路径（相对运行目录）。设为 null 则只输出到终端不写文件",
+
+  "exchange": {
+    "adapter": "exchanges.extendedx.ExtendedXAdapter",
+    "adapter_note": "ExtendedX 固定填写此值，无需修改",
+
+    "api_key": "",
+    "api_key_note": "在 ExtendedX 控制台「账户 → API 密钥」页面生成",
+
+    "api_secret": "",
+    "api_secret_note": "用于签署交易的 Stark 私钥，必须是 0x 开头的 64 位十六进制字符串。在 ExtendedX 控制台账户 → API 密钥 生成。拥有交易权限，请勿泄露或提交到代码仓库",
+
+    "extra": {
+      "stark_public": "",
+      "stark_public_note": "与 api_secret 的私钥配对的公钥，0x 开头的十六进制字符串",
+
+      "stark_vault": "",
+      "stark_vault_note": "账户 Vault ID（整数），在 ExtendedX 控制台账户信息页面查看。例如控制台显示 vault_id=123456，就填 123456",
+
+      "network": "mainnet",
+      "network_note": "mainnet=主网（真钱），testnet=测试网（测试币）"
+    }
+  },
+
+  "strategy": {
+    "symbol": "BTC-USD",
+    "symbol_note": "市场名称，必须与 ExtendedX 上的交易对名称完全一致（区分大小写）。常见交易对: BTC-USD（BTC 永续）、ETH-USD（ETH 永续）、SOL-USD 等。请确认 ExtendedX 上该交易对已开放永续合约",
+
+    "lower_price": "69000",
+    "lower_price_note": "网格区间的最低价格。当行情低于此价格时，网格策略停止。建议设为当前价格下方 10%~20% 处。例如当前 BTC=65000，可设为 58000~60000。必须小于 upper_price",
+
+    "upper_price": "71000",
+    "upper_price_note": "网格区间的最高价格。当行情高于此价格时，网格策略停止。建议设为当前价格上方 10%~20% 处。例如当前 BTC=65000，可设为 72000~75000。必须大于 lower_price",
+
+    "grid_count": 10,
+    "grid_count_note": "将价格区间分成多少格（有效范围 2~300）。格数越多单格利润越小，但交易频率越高。初始建议 10~20 格。保守策略用 5~10 格，积极策略用 20~50 格。例如 lower=60000, upper=70000, grid_count=10 → 每格间距 1000 USD",
+
+    "is_arithmetic": true,
+    "is_arithmetic_note": "网格模式: true=等差网格（每格价格间距相等），false=等比网格（每格价格比例相等）。等差适合价格在固定区间内反复震荡，等比适合价格波动%均匀的市场（大多数加密货币），低价区格距更小更密集。不确定时选 true",
+
+    "qty_per_grid": null,
+    "qty_per_grid_note": "每个网格下单的数量（基础货币，如 BTC）。二选一：若填写此值则 total_investment 须为 null。每格利润 ≈ 每格价差 × 每格数量，建议每格利润在 0.5%~2% 之间",
+
+    "total_investment": "200",
+    "total_investment_note": "用于网格策略的总资金（报价货币，如 USDC）。二选一：若填写此值则 qty_per_grid 须为 null。系统自动根据当前价格计算每格数量。公式: qty_per_grid ≈ total_investment / (grid_count × 当前价格)。例如总投入 500 USDC、BTC=65000、grid_count=10 → qty ≈ 500/(10×65000) ≈ 0.00077 BTC/格",
+
+    "stop_loss": null,
+    "stop_loss_note": "当行情价格跌破此值时，机器人自动停止并撤销所有挂单。设为 null 则不启用（但价格跌破网格下界时仍会自动启用动态爆仓止损）。建议设为 lower_price 下方 3%~5% 处。例如 lower_price=60000，建议设为 57000~58500",
+
+    "take_profit": null,
+    "take_profit_note": "当行情价格涨破此值时，机器人自动停止并撤销所有挂单。设为 null 则不启用（但价格涨破网格上界时仍会自动启用动态爆仓止损）。建议设为 upper_price 上方 3%~5% 处。例如 upper_price=80000，建议设为 82000~84000"
+  }
+}

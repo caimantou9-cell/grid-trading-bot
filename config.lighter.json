@@ -1,0 +1,61 @@
+{
+  "_note": "网格机器人配置文件 — Lighter DEX | 基于 config.extendedx.json 修改 exchange 适配 Lighter",
+
+  "log_level": "INFO",
+  "log_level_note": "日志级别: DEBUG=详细, INFO=普通, WARNING=仅警告。首次运行建议 DEBUG 排查，稳定后改为 INFO",
+  "log_level_options": ["DEBUG", "INFO", "WARNING"],
+
+  "log_file": "grid.log",
+  "log_file_note": "日志文件路径（相对运行目录）。设为 null 则只输出到终端不写文件",
+
+  "exchange": {
+    "adapter": "exchanges.lighter.LighterAdapter",
+    "adapter_note": "Lighter 固定填写此值，无需修改",
+
+    "api_key": "",
+    "api_key_note": "Lighter 账户索引，通常填 0（整数字符串）",
+
+    "api_secret": "",
+    "api_secret_note": "Lighter 钱包私钥（0x 开头的十六进制字符串），用于签署交易。请勿泄露或提交到代码仓库",
+
+    "extra": {
+      "api_key_index": 0,
+      "api_key_index_note": "Lighter 子密钥索引，默认 0。如果签名仍然失败可能需要调整此值",
+
+      "market_map": {
+        "BTC-USDC-PERP": 1,
+        "ETH-USDC-PERP": 0
+      },
+      "market_map_note": "交易对名称 → market_id 的映射。在 Lighter 控制台查看对应市场的 ID。注意：Lighter 符号格式为 BTC-USDC-PERP（非 BTC-USD）"
+    }
+  },
+
+  "strategy": {
+    "symbol": "BTC-USDC-PERP",
+    "symbol_note": "Lighter 永续合约市场名称，格式为 BTC-USDC-PERP。注意与 ExtendedX 的 BTC-USD 不同",
+
+    "lower_price": "60000",
+    "lower_price_note": "网格区间的最低价格。当行情低于此价格时，网格策略停止。建议设为当前价格下方 10%~20% 处",
+
+    "upper_price": "80000",
+    "upper_price_note": "网格区间的最高价格。当行情高于此价格时，网格策略停止。建议设为当前价格上方 10%~20% 处",
+
+    "grid_count": 10,
+    "grid_count_note": "将价格区间分成多少格（有效范围 2~300）。格数越多单格利润越小，但交易频率越高。初始建议 10~20 格",
+
+    "is_arithmetic": true,
+    "is_arithmetic_note": "网格模式: true=等差网格（每格价格间距相等），false=等比网格（每格价格比例相等）",
+
+    "qty_per_grid": null,
+    "qty_per_grid_note": "每个网格下单的数量（基础货币，如 BTC）。二选一：若填写此值则 total_investment 须为 null",
+
+    "total_investment": "200",
+    "total_investment_note": "用于网格策略的总资金（报价货币，如 USDC）。二选一：若填写此值则 qty_per_grid 须为 null",
+
+    "stop_loss": null,
+    "stop_loss_note": "当行情价格跌破此值时，机器人自动停止并撤销所有挂单。设为 null 则不启用",
+
+    "take_profit": null,
+    "take_profit_note": "当行情价格涨破此值时，机器人自动停止并撤销所有挂单。设为 null 则不启用"
+  }
+}

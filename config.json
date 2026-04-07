@@ -1,0 +1,29 @@
+{
+  "log_level": "DEBUG",
+  "log_file": "grid.log",
+
+  "exchange": {
+    "adapter": "exchanges.lighter.LighterAdapter",
+    "api_key": "721775",
+    "api_secret": "0x8570e3de441683f4bf6a0a6c20c2d9a41e9a37d597ab59c65ff681cf3cde43cdacb781d36c9ac40f",
+    "extra": {
+      "api_key_index": 6,
+      "market_map": {
+        "BTC-USDC-PERP": 1,
+        "ETH-USDC-PERP": 0
+      }
+    }
+  },
+
+  "strategy": {
+    "symbol": "BTC-USDC-PERP",
+    "lower_price": "58000",
+    "upper_price": "78000",
+    "grid_count": 10,
+    "is_arithmetic": true,
+    "qty_per_grid": null,
+    "total_investment": "150",
+    "stop_loss": null,
+    "take_profit": null
+  }
+}

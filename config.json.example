@@ -1,0 +1,37 @@
+{
+  "_comment": "Copy this file to config.json and fill in your values.",
+
+  "log_level": "INFO",
+  "log_file": "grid.log",
+
+  "exchange": {
+    "_comment": "Set 'adapter' to the dotted import path of your ExchangeAdapter subclass.",
+    "adapter": "exchanges.my_exchange.MyAdapter",
+    "api_key": "YOUR_API_KEY",
+    "api_secret": "YOUR_API_SECRET",
+    "extra": null
+  },
+
+  "strategy": {
+    "_comment_symbol": "Use the exact market name your exchange requires, e.g. BTCUSDT, BTC-USD, BTC-USDC-PERP",
+    "symbol": "BTC-USD",
+
+    "_comment_prices": "Price range for the grid",
+    "lower_price": "60000",
+    "upper_price": "80000",
+
+    "_comment_grid": "Number of grid intervals (2 ~ 300)",
+    "grid_count": 10,
+
+    "_comment_mode": "true = arithmetic (equal spacing), false = geometric (equal ratio)",
+    "is_arithmetic": true,
+
+    "_comment_sizing": "Provide qty_per_grid OR total_investment (or both; qty_per_grid takes priority).",
+    "qty_per_grid": null,
+    "total_investment": "500",
+
+    "_comment_guards": "Optional. Bot stops when price crosses these levels.",
+    "stop_loss": null,
+    "take_profit": null
+  }
+}
